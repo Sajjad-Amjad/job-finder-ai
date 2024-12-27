@@ -176,34 +176,61 @@
       const renderJob = (index) => {
         const job = jobs[index];
         cardContainer.innerHTML = `
-    <div class="card">
-      <div class="card-header">
-        <h2 style="font-weight: bold; color: #2a4d69;">${job.title}</h2>
-      </div>
-      <div class="card-body">
-        <p style="font-size: 18px; font-weight: bold; color: #34495e;">
-          <strong>Company:</strong> ${job.company}
-        </p>
-        <p style="font-size: 18px; font-weight: bold; color: #34495e;">
-          <strong>Location:</strong> ${job.location}
-        </p>
-        <p style="font-size: 18px; font-weight: bold; color: #34495e;">
-          <strong>Posted:</strong> ${job.postedAt || "N/A"}
-        </p>
-        <p style="font-size: 18px; font-weight: bold; color: #34495e;">
-          <strong>Work From Home:</strong> ${job.workFromHome ? "Yes" : "No"}
-        </p>
-      </div>
-      <div class="card-footer">
-        <a href="${job.applyLink}" 
-           class="apply-btn" 
-           target="_blank" 
-           style="font-size: 18px; font-weight: bold; text-transform: uppercase; text-align: center;">
-           Apply Now
-        </a>
-      </div>
+  <div style="
+    padding: 30px; 
+    border-radius: 15px; 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); 
+    background: linear-gradient(to bottom, #ffffff, #f9f9f9); 
+    color: #34495e;
+    text-align: center; 
+    max-width: 400px;
+    margin: auto;
+    font-family: 'Arial', sans-serif;
+  ">
+    <h2 style="
+      font-weight: bold; 
+      font-size: 26px; 
+      margin-bottom: 20px; 
+      color: #2c3e50;
+    ">
+      ${job.title}
+    </h2>
+    <div style="font-size: 18px; line-height: 1.8; margin-bottom: 20px;">
+      <p><strong>Company:</strong> <span style="color: #555;">${
+        job.company
+      }</span></p>
+      <p><strong>Location:</strong> <span style="color: #555;">${
+        job.location
+      }</span></p>
+      <p><strong>Posted:</strong> <span style="color: #555;">${
+        job.postedAt || "N/A"
+      }</span></p>
+      <p><strong>Work From Home:</strong> <span style="color: #555;">${
+        job.workFromHome ? "Yes" : "No"
+      }</span></p>
     </div>
-  `;
+    <div style="margin-top: 30px;">
+      <a href="${job.applyLink}" 
+         target="_blank" 
+         style="
+           display: inline-block; 
+           padding: 15px 30px; 
+           background-color: #1abc9c; 
+           color: white; 
+           font-size: 18px; 
+           font-weight: bold; 
+           text-decoration: none; 
+           border-radius: 8px;
+           transition: background-color 0.3s ease;
+         "
+         onmouseover="this.style.backgroundColor='#16a085';"
+         onmouseout="this.style.backgroundColor='#1abc9c';">
+         Apply Now
+      </a>
+    </div>
+  </div>
+`;
+
         updateDots(index);
       };
 
