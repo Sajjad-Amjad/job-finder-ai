@@ -10,61 +10,160 @@
     />
     <style>
       body {
-        background-color: #f0f8ff; /* Light blue background */
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to bottom right, #f0f9ff, #dceefb);
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        margin: 0;
-        font-family: "Arial", sans-serif;
+        overflow: hidden;
       }
+
+
+      .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2a5885;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      margin-left: 20px;
+      color: #2a5885;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #0078ff;
+    }
+
       .upload-container {
-        background-color: #e6eaf2; /* Slightly darker background for the container */
-        border: 2px solid #d0d4e1; /* Shiny border */
-        border-radius: 10px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        width: 450px; /* Increased width slightly */
-        height: 350px; /* Increased height */
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         padding: 40px;
         text-align: center;
+        width: 450px;
+        position: relative;
       }
+
       .upload-container h1 {
-        font-size: 26px;
-        margin-bottom: 25px;
-        color: #333333;
+        font-size: 28px;
+        font-weight: bold;
+        color: #0078ff;
+        margin-bottom: 20px;
+        text-shadow: 0 4px 8px rgba(0, 120, 255, 0.2);
       }
+
       .upload-container .form-label {
         font-weight: bold;
-        color: #555555;
+        color: #333;
       }
+
       .upload-container input[type="file"] {
         border: 1px solid #ccc;
-        border-radius: 5px;
+        border-radius: 10px;
         padding: 10px;
         width: 100%;
         margin-bottom: 20px;
+        outline: none;
+        transition: border-color 0.3s ease;
       }
+
+      .upload-container input[type="file"]:focus {
+        border-color: #0078ff;
+      }
+
       .upload-container button {
-        background-color: #5a67d8;
-        color: #ffffff;
+        background: linear-gradient(45deg, #0078ff, #42a5f5);
+        color: white;
         border: none;
         padding: 12px 25px;
-        border-radius: 5px;
-        font-size: 16px;
+        border-radius: 25px;
+        font-size: 18px;
         cursor: pointer;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        transition: all 0.4s;
+        box-shadow: 0 10px 20px rgba(0, 120, 255, 0.4);
       }
+
       .upload-container button:hover {
-        background-color: #4c51bf;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.1);
+        box-shadow: 0 15px 30px rgba(0, 120, 255, 0.6);
       }
+
       .upload-container .loading-spinner {
         display: none;
-        margin-top: 10px;
+        margin-top: 20px;
+      }
+
+      .floating-elements {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(0, 120, 255, 0.2);
+        animation: pulse 12s infinite;
+      }
+
+      .circle:nth-child(1) {
+        width: 120px;
+        height: 120px;
+        top: 15%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+
+      .circle:nth-child(2) {
+        width: 80px;
+        height: 80px;
+        bottom: 10%;
+        right: 15%;
+        animation-delay: 3s;
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(0.9);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.5;
+        }
       }
     </style>
   </head>
   <body>
+
+
+    <div class="header">
+      <div class="logo">Job Finder AI</div>
+      <div class="nav-links">
+        <a href="#">Features</a>
+        <a href="#">Contact</a>
+        <a href="#">Help</a>
+      </div>
+    </div>
+
     <div class="upload-container">
       <h1>Upload Your Resume</h1>
       <form id="uploadForm">
@@ -86,6 +185,12 @@
         </div>
       </form>
     </div>
+
+    <div class="floating-elements">
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+
     <script>
       document
         .getElementById("uploadForm")
@@ -116,7 +221,6 @@
 
             const uploadResult = await uploadResponse.json();
 
-            // Call find-jobs endpoint immediately after upload
             const jobsResponse = await fetch("/find-jobs", { method: "POST" });
             if (!jobsResponse.ok) {
               throw new Error("Failed to fetch job recommendations.");
@@ -124,10 +228,8 @@
 
             const jobsResult = await jobsResponse.json();
 
-            // Store jobs in localStorage for retrieval on jobs page
             localStorage.setItem("jobs", JSON.stringify(jobsResult.jobs));
 
-            // Redirect to jobs page
             window.location.href = "/jobs";
           } catch (error) {
             alert(error.message);
