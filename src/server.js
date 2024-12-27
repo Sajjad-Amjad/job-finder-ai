@@ -19,7 +19,7 @@ app.use(express.static("public")); // Serve static files from the "public" direc
 
 // Serve the upload page by default
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("public/upload.html"));
+  res.sendFile(path.resolve("public"));
 });
 
 // Endpoint to upload PDF and extract text
