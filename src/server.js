@@ -12,6 +12,7 @@ const app = express();
 const upload = multer({ dest: "uploads/" });
 
 let structuredResumeData = {};
+let extractedResumeText = ""; // Global variable for full resume text
 
 // Middleware
 app.use(express.json());
@@ -29,8 +30,8 @@ app.post("/upload-pdf", upload.single("file"), async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    const parsedResumeText = await parsePDF(req.file.path);
-    structuredResumeData = await extractResumeDetails(parsedResumeText);
+    extractedResumeText = await parsePDF(req.file.path); // Save extracted text globally
+    structuredResumeData = await extractResumeDetails(extractedResumeText);
 
     res.json({
       message: "PDF uploaded and structured data extracted successfully",
@@ -45,13 +46,17 @@ app.post("/upload-pdf", upload.single("file"), async (req, res) => {
 // Endpoint to find jobs based on structured resume data
 app.post("/find-jobs", async (req, res) => {
   try {
-    if (!structuredResumeData || !structuredResumeData.title) {
+    if (!structuredResumeData || !structuredResumeData.title || !extractedResumeText) {
       return res.status(400).json({
         error: "Upload a resume first to extract structured data for job search.",
       });
     }
 
-    const jobs = await searchJobs(structuredResumeData);
+    // Pass the full resume text to the job search
+    const jobs = await searchJobs({
+      ...structuredResumeData,
+      resumeText: extractedResumeText, // Use global variable for resume text
+    });
 
     res.json({ jobs });
   } catch (error) {

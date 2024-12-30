@@ -12,7 +12,7 @@ const model = new ChatOpenAI({
 
 const resumeSchema = z.object({
   title: z.string().describe("Current job title of the candidate"),
-  location: z.string().describe("Preferred job location (City or Country)"),
+  location: z.string().describe("Preferred job location (Country Code)"),
   workFromHomePreference: z
     .boolean()
     .describe("Does the candidate prefer to work from home?"),
