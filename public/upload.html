@@ -11,7 +11,7 @@
     <style>
       body {
         margin: 0;
-        font-family: 'Arial', sans-serif;
+        font-family: "Arial", sans-serif;
         background: linear-gradient(to bottom right, #f0f9ff, #dceefb);
         display: flex;
         justify-content: center;
@@ -20,35 +20,35 @@
         overflow: hidden;
       }
 
-
       .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 50px;
-      position: absolute;
-      top: 0;
-      width: 100%;
-    }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
 
-    .logo {
-      font-size: 28px;
-      font-weight: bold;
-      color: #2a5885;
-      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-    }
+      
+      .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2a5885;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+      }
 
-    .nav-links a {
-      text-decoration: none;
-      margin-left: 20px;
-      color: #2a5885;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
+      .nav-links a {
+        text-decoration: none;
+        margin-left: 20px;
+        color: #2a5885;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
 
-    .nav-links a:hover {
-      color: #0078ff;
-    }
+      .nav-links a:hover {
+        color: #0078ff;
+      }
 
       .upload-container {
         background: white;
@@ -141,7 +141,8 @@
       }
 
       @keyframes pulse {
-        0%, 100% {
+        0%,
+        100% {
           transform: scale(0.9);
           opacity: 0.7;
         }
@@ -153,14 +154,11 @@
     </style>
   </head>
   <body>
-
-
     <div class="header">
       <div class="logo">Job Finder AI</div>
       <div class="nav-links">
-        <a href="#">Features</a>
-        <a href="#">Contact</a>
-        <a href="#">Help</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
       </div>
     </div>
 
@@ -210,6 +208,7 @@
           loadingSpinner.style.display = "block";
 
           try {
+            // Upload pdf
             const uploadResponse = await fetch("/upload-pdf", {
               method: "POST",
               body: formData,
@@ -219,7 +218,7 @@
               throw new Error("Failed to process the PDF.");
             }
 
-            const uploadResult = await uploadResponse.json();
+            const uploadResult = await uploadResponse.json(); // Resume text
 
             const jobsResponse = await fetch("/find-jobs", { method: "POST" });
             if (!jobsResponse.ok) {
